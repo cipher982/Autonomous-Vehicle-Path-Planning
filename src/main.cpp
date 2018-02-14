@@ -347,10 +347,9 @@ int main()
 					double ref_y = car_y;
 					double ref_yaw = deg2rad(car_yaw);
 
-					// Do I have have previous points
+					// If starting from beginning, use predictions based on position
 					if (prev_size < 2)
 					{
-						// There are not too many...
 						double prev_car_x = car_x - cos(car_yaw);
 						double prev_car_y = car_y - sin(car_yaw);
 
