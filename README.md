@@ -2,7 +2,7 @@
 ##### David Rose
 ##### 2018-02-15
 -------------------------
-##### Overview 
+#### Overview 
 Path planning is one of the most dificult areas of development for autonomous vehicles as it involves an ensemble of various sytems that must work together. It relies on sensory input to perceive the world around it and to subsequently output controls to see the computations to fruition. This creates a ongoing loop of operation that will be in operation until the car has arrived at it's destination. 
 
 A car could have separate models for the various situations it may encounter such as: *intersections, highways, parking lots, construction zones, etc.* Different parameters of operation will be in effect for each of these. For this project I will describe a model I have written that involves a 3-lane road with no exits/entrances, and multiple other vehicles that may be going at different speeds.
@@ -23,11 +23,11 @@ Using the Unity game engine and C++, this program attempts to complete infinitel
 
 Other than those, go as fast as possible.
 
-##### How to Handle State Changes
+#### How to Handle State Changes
 
 This code block below sets the lane variable for other cars on the road by detecting the amount of meters from the left-most edge of our direction (so 0 is the center-line dividing the two directions). For the sake of this project this information is known to us, but in the real world it must be gather via various perception methods.
 
-##### What lane are the other cars in?
+#### What lane are the other cars in?
 Using some finite state calculations we can set the lane variable for other cars:
 ```cpp
 if (d > 0 && d < 4) // d represents location in meters from left-most edge
@@ -47,7 +47,7 @@ if (car_lane < 0)
   continue;
 }
 ```
-##### How near/far are the other cars?
+#### How near/far are the other cars?
 With that lane information we can now analyze the near/far front/back positioning relative to ours:
 ```cpp
 // estimate longitudinal position of a car (s)
@@ -107,8 +107,8 @@ if (car_ahead)
 
 The rest of the code is fairly straightforward in that I just need to follow the actions I decided on above, without breaking any of the rules defined at the beginning. the **max_vel** variable is set at *49.5 m/s*, while **max_acl** is set at *.224 m/s^2*, which keeps the car under stated comfort levels of acceleration.
 
-##### Splines, or how to smooth out discrete trajectory points
- ![By Garry R. Osgood (Own work) [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)](https://github.com/cipher982/Autonomous-Vehicle-Path-Planning/blob/master/media/wiki_spline.png "By Garry R. Osgood (Own work) [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)")
+#### Splines, or how to smooth out discrete trajectory points
+ ![By Garry R. Osgood (Own work) CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)](https://github.com/cipher982/Autonomous-Vehicle-Path-Planning/blob/master/media/wiki_spline.png "By Garry R. Osgood (Own work) [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)")
  
  From the image above you can see how the discrete points ('P') are smoothed out. This is a polynomial interpolation. These can be defined using an arbitrary amount of polynomials but in this case we will be using 5 *(a quintic spline)*.
  
