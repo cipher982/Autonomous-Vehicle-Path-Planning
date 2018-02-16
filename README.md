@@ -108,7 +108,7 @@ if (car_ahead)
 The rest of the code is fairly straightforward in that I just need to follow the actions I decided on above, without breaking any of the rules defined at the beginning. the **max_vel** variable is set at *49.5 m/s*, while **max_acl** is set at *.224 m/s^2*, which keeps the car under stated comfort levels of acceleration.
 
 ##### Splines, or how to smooth out discrete trajectory points
- ![By Garry R. Osgood (Own work) [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)](https://github.com/cipher982/Autonomous-Vehicle-Path-Planning/blob/master/media/wiki_spline.png "By Garry R. Osgood (Own work) [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)")
+ ![By Garry R. Osgood (Own work) CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)](https://github.com/cipher982/Autonomous-Vehicle-Path-Planning/blob/master/media/wiki_spline.png "By Garry R. Osgood (Own work) [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)")
  
  From the image above you can see how the discrete points ('P') are smoothed out. This is a polynomial interpolation. These can be defined using an arbitrary amount of polynomials but in this case we will be using 5 *(a quintic spline)*.
  
