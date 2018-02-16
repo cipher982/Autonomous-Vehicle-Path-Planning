@@ -2,8 +2,11 @@
 ##### David Rose
 ##### 2018-02-15
 -------------------------
-#### Overview 
-Path planning is one of the most dificult areas of development for autonomous vehicles as it involves an ensemble of various sytems that must work together. It relies on sensory input to perceive the world around it and to subsequently output controls to see the computations to fruition. This creates a ongoing loop of operation that will be in operation until the car has arrived at it's destination. 
+#### Overview
+
+![Autonomous Car in Unity](https://github.com/cipher982/Autonomous-Vehicle-Path-Planning/blob/master/media/ezgif.com-gif-maker.gif "Autonomous Car in Unity")
+
+Path planning is one of the most difficult areas of development for autonomous vehicles as it involves an ensemble of various systems that must work together. It relies on sensory input to perceive the world around it and to subsequently output controls to see the computations to fruition. This creates an ongoing loop of operation that will be in operation until the car has arrived at its destination. 
 
 A car could have separate models for the various situations it may encounter such as: *intersections, highways, parking lots, construction zones, etc.* Different parameters of operation will be in effect for each of these. For this project I will describe a model I have written that involves a 3-lane road with no exits/entrances, and multiple other vehicles that may be going at different speeds.
 
@@ -25,10 +28,10 @@ Other than those, go as fast as possible.
 
 #### How to Handle State Changes
 
-This code block below sets the lane variable for other cars on the road by detecting the amount of meters from the left-most edge of our direction (so 0 is the center-line dividing the two directions). For the sake of this project this information is known to us, but in the real world it must be gather via various perception methods.
+This code block below sets the lane variable for other cars on the road by detecting the number of meters from the left-most edge of our direction (so 0 is the center-line dividing the two directions). For the sake of this project this information is known to us, but in the real world it must be gather via various perception methods.
 
 #### What lane are the other cars in?
-Using some finite state calculations we can set the lane variable for other cars:
+Using some finite state calculations, we can set the lane variable for other cars:
 ```cpp
 if (d > 0 && d < 4) // d represents location in meters from left-most edge
 {
@@ -110,13 +113,13 @@ The rest of the code is fairly straightforward in that I just need to follow the
 #### Splines, or how to smooth out discrete trajectory points
  ![By Garry R. Osgood (Own work) CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)](https://github.com/cipher982/Autonomous-Vehicle-Path-Planning/blob/master/media/wiki_spline.png "By Garry R. Osgood (Own work) [CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0)")
  
- From the image above you can see how the discrete points ('P') are smoothed out. This is a polynomial interpolation. These can be defined using an arbitrary amount of polynomials but in this case we will be using 5 *(a quintic spline)*.
+ From the image above, you can see how the discrete points ('P') are smoothed out. This is a polynomial interpolation. These can be defined using an arbitrary amount of polynomials but in this case we will be using 5 *(a quintic spline)*.
  
-In the image below you can see a bit of the curvature that it may produce. As the time horizon is low and road relatively straight, there is not much curvature to be found in this particular project.
+In the image below, you can see a bit of the curvature that it may produce. As the time horizon is low and road relatively straight, there is not much curvature to be found in this particular project.
 
 ![Unity Spline Example](https://github.com/cipher982/Autonomous-Vehicle-Path-Planning/blob/master/media/unity_spline.png "Unity spline example")
 
-Without this method, the car will be attempting to change positions as fast as mechanically possible to each new subsequent desired position and heading, which being a simulation in this case, is instantaneously. Fortunately the code here is super simple as I just included the spline library, so I only need to write this:
+Without this method, the car will be attempting to change positions as fast as mechanically possible to each new subsequent desired position and heading, which being a simulation in this case, is instantaneously. Fortunately, the code here is super simple as I just included the spline library, so I only need to write this:
 
 ```cpp 
 // create a spline
