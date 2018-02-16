@@ -20,7 +20,7 @@ For this project the states involved are: *speed up, hold speed, slow down, keep
 Using the Unity game engine and C++, this program attempts to complete infinitely many laps around the course without breaking a few 'rules' I have put in place. These include:
 * **Speed limit** - 50mph
 * **Max Acceleration** - 10 m/s^2
-* **Max Jerk** (as a derivative of accerelation) - 10 m/s^3
+* **Max Jerk** (as a derivative of acceleration) - 10 m/s^3
 * **Don't boop other cars**
 * **Stay on the road**
 
