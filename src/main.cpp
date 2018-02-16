@@ -80,12 +80,11 @@ int NextWaypoint(double x, double y, double theta, const vector<double> &maps_x,
 	if (angle > pi() / 4)
 	{
 		closestWaypoint++;
-		
+
 		if (closestWaypoint == maps_x.size())
 		{
 			closestWaypoint = 0;
 		}
-		
 	}
 
 	return closestWaypoint;
@@ -211,8 +210,8 @@ int main()
 	// target velocity
 	double ref_vel = 0;
 
-	h.onMessage([&ref_vel, &lane, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
-																															  uWS::OpCode opCode) {
+	h.onMessage([&ref_vel, &lane, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx,
+				 &map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
 		// "42" at the start of the message means there's a websocket message event.
 		// The 4 signifies a websocket message
 		// The 2 signifies a websocket event
@@ -253,6 +252,12 @@ int main()
 
 					int prev_size = previous_path_x.size();
 
+					// Preventing collitions.
+					if (prev_size > 0)
+					{
+						car_s = end_path_s;
+					}
+
 					// check sorrounding vehicles
 					bool car_ahead = false;
 					bool car_left = false;
@@ -261,9 +266,10 @@ int main()
 					{
 						float d = sensor_fusion[i][6]; // grab i-th car, 6=d
 						int car_lane = -1;
-						if (d > 0 && d < 4) // find out where car is
+						// find out where car is
+						if (d > 0 && d < 4) // d represents location in meters from left-most edge
 						{
-							car_lane = 0; // 0-4 = lane 0, (left-lane)
+							car_lane = 0; // 0-4 meters = lane 0, (left-lane)
 						}
 						else if (d > 4 && d < 8)
 						{
@@ -290,28 +296,29 @@ int main()
 						if (car_lane == lane)
 						{
 							// Car in our lane.
-							car_ahead |= check_car_s > car_s && check_car_s - car_s < 30;
+							car_ahead |= check_car_s > car_s && check_car_s - car_s < 20;
 						}
 						else if (car_lane - lane == -1)
 						{
 							// Car left
-							car_left |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
+							car_left |= car_s - 20 < check_car_s && car_s + 20 > check_car_s;
 						}
 						else if (car_lane - lane == 1)
 						{
 							// Car right
-							car_right |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
+							car_right |= car_s - 20 < check_car_s && car_s + 20 > check_car_s;
 						}
 					}
 
 					// lane control
 					double speed_diff = 0;
 					const double max_vel = 49.5;
-					const double max_acl = .224;
+					const double max_acl = .2;
 
 					if (car_ahead)
 					{
-						cout << "Car Ahead!!!\n\n\n\n\n\n" << endl;
+						cout << "Car Ahead!!!\n\n\n\n\n\n"
+							 << endl;
 						if (!car_left && lane > 0) // no left-car, yes left-lane
 						{
 							lane--; // Change lane left
